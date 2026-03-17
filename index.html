@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment Upload Portal</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      width: 350px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 { text-align: center; margin-bottom: 20px; }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    button:hover { background: #0056b3; }
+    #status { margin-top: 15px; text-align: center; font-weight: bold; }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <h2>Assignment Upload</h2>
+  <form id="uploadForm">
+    <input type="text" id="studentId" placeholder="Student ID" required>
+    <input type="text" id="fullName" placeholder="Full Name" required>
+    <select id="program" required>
+      <option value="">Select Program</option>
+      <option>Advanced Certificate in Psychopathology and Diagnosis Assessment</option>
+      <option>Diploma in Psychology and Counselling</option>
+      <option>Diploma in Human Resource Management and Administration</option>
+      <option>Diploma in Marketing</option>
+      <option>Diploma in Accounting and Finance</option>
+      <option>Diploma in Criminology</option>
+      <option>Diploma in Information and Communication Technology</option>
+      <option>Diploma in Tamil Language</option>
+      <option>Diploma in English language</option>
+      <option>Diploma in Child Psychology and Special Needs Education</option>
+      <option>Diploma in Sociology and Anthropology</option>
+      <option>Higher Diploma in Business Studies</option>
+      <option>Higher Diploma in Sociology and Social Work</option>
+      <option>Higher Diploma in Psychology and Counselling</option>
+      <option>Higher Diploma in English Teacher Training</option>
+    </select>
+    <input type="text" id="batch" placeholder="Batch" required>
+    <input type="file" id="pdfFile" accept="application/pdf" required>
+    <button type="submit">Submit</button>
+  </form>
+  <p id="status"></p>
+</div>
+
+<script type="module">
+  import { uploadFile } from './app.js';
+
+  document.getElementById("uploadForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    uploadFile();
+  });
+</script>
+</body>
+</html>
