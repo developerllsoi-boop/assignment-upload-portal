@@ -74,13 +74,11 @@
 </div>
 
 <script type="module">
-  import { uploadFile } from './app.js';
-
-  const form = document.getElementById("uploadForm");
-  form.addEventListener("submit", async function(e) {
-    e.preventDefault();
+    import { uploadFile } from './app.js';
+    document.getElementById("uploadForm").addEventListener("submit", function(e){
+      e.preventDefault();
     document.getElementById("status").innerText = "Uploading...";
-    await uploadFile();
+    uploadFile();
   });
 </script>
 </body>

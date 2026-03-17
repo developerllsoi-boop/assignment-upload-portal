@@ -1,60 +1,42 @@
 // app.js
 export async function uploadFile() {
-  // Get form values and trim whitespace
   const studentId = document.getElementById("studentId").value.trim();
   const fullName = document.getElementById("fullName").value.trim();
   const program = document.getElementById("program").value;
   const batch = document.getElementById("batch").value.trim();
   const pdfFile = document.getElementById("pdfFile").files[0];
-
   const statusEl = document.getElementById("status");
 
-  // Validate form fields
-  if (!studentId || !fullName || !program || !batch) {
-    alert("Please fill in all required fields.");
-    return;
-  }
+  if (!studentId || !fullName || !program || !batch) { alert("Fill all fields."); return; }
+  if (!pdfFile) { alert("Select a PDF file."); return; }
+  if (pdfFile.type !== "application/pdf") { alert("Only PDF allowed."); return; }
 
-  if (!pdfFile) {
-    alert("Please select a PDF file to upload.");
-    return;
-  }
-
-  if (pdfFile.type !== "application/pdf") {
-    alert("Only PDF files are allowed.");
-    return;
-  }
-
-  // Show uploading status
   statusEl.innerText = "Uploading...";
 
-  // Create FormData to send
-  const formData = new FormData();
-  formData.append("studentId", studentId);
-  formData.append("fullName", fullName);
-  formData.append("program", program);
-  formData.append("batch", batch);
-  formData.append("pdfFile", pdfFile); // Must match input name in HTML
+  const reader = new FileReader();
+  reader.readAsDataURL(pdfFile);
+  reader.onload = async () => {
+    const base64 = reader.result.split(',')[1]; // remove prefix
+    const payload = {
+      studentId, fullName, program, batch,
+      pdfBase64: base64,
+      fileName: pdfFile.name
+    };
 
-  // Google Apps Script Web App URL
-  const webAppURL = "https://script.google.com/macros/s/AKfycbzrj8HXHgazy3UUraYRAdQ-1MB9uGz2kpSjmexc7aj0riGQYt6BTwINQJz_f_90Fwe5/exec";
+    const webAppURL = "https://script.google.com/macros/s/AKfycbxaYlW7wwh40bjZTTStoDql6bvpXoNAp6X3wYc1qD2RBpbqYp2I9L9jPHitot_vECAE/exec";
 
-  try {
-    const response = await fetch(webAppURL, {
-      method: "POST",
-      body: formData
-    });
-
-    const resultText = await response.text();
-    statusEl.innerText = resultText;
-
-    // Reset form if successful
-    if (resultText.includes("Upload successful")) {
-      document.getElementById("uploadForm").reset();
+    try {
+      const response = await fetch(webAppURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const resultText = await response.text();
+      statusEl.innerText = resultText;
+      if (resultText.includes("Upload successful")) { document.getElementById("uploadForm").reset(); }
+    } catch(err) {
+      console.error(err);
+      statusEl.innerText = "Upload failed: " + err.message;
     }
-
-  } catch (error) {
-    console.error("Upload failed:", error);
-    statusEl.innerText = "Upload failed: " + error.message;
-  }
+  };
 }
