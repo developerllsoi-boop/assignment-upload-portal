@@ -46,9 +46,9 @@
 <div class="container">
   <h2>Assignment Upload</h2>
   <form id="uploadForm">
-    <input type="text" id="studentId" placeholder="Student ID" required>
-    <input type="text" id="fullName" placeholder="Full Name" required>
-    <select id="program" required>
+    <input type="text" id="studentId" name="studentId" placeholder="Student ID" required>
+    <input type="text" id="fullName" name="fullName" placeholder="Full Name" required>
+    <select id="program" name="program" required>
       <option value="">Select Program</option>
       <option>Advanced Certificate in Psychopathology and Diagnosis Assessment</option>
       <option>Diploma in Psychology and Counselling</option>
@@ -66,8 +66,8 @@
       <option>Higher Diploma in Psychology and Counselling</option>
       <option>Higher Diploma in English Teacher Training</option>
     </select>
-    <input type="text" id="batch" placeholder="Batch" required>
-    <input type="file" id="pdfFile" accept="application/pdf" required>
+    <input type="text" id="batch" name="batch" placeholder="Batch" required>
+    <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" required>
     <button type="submit">Submit</button>
   </form>
   <p id="status"></p>
@@ -76,9 +76,11 @@
 <script type="module">
   import { uploadFile } from './app.js';
 
-  document.getElementById("uploadForm").addEventListener("submit", function(e) {
+  const form = document.getElementById("uploadForm");
+  form.addEventListener("submit", async function(e) {
     e.preventDefault();
-    uploadFile();
+    document.getElementById("status").innerText = "Uploading...";
+    await uploadFile();
   });
 </script>
 </body>
