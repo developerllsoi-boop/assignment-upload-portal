@@ -23,7 +23,7 @@ export async function uploadFile() {
       fileName: pdfFile.name
     };
 
-    const webAppURL = "https://script.google.com/macros/s/AKfycbxaYlW7wwh40bjZTTStoDql6bvpXoNAp6X3wYc1qD2RBpbqYp2I9L9jPHitot_vECAE/exec";
+    const webAppURL = "https://script.google.com/macros/s/AKfycbytcQ-GwiR0oN5piQqZSsieMleuG_0K7qREiKU5AgTufmAsnoip8UFHTNkqlTzDeIq1/exec";
 
     try {
       const response = await fetch(webAppURL, {
